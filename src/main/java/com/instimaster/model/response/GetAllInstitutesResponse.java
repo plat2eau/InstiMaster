@@ -1,6 +1,6 @@
 package com.instimaster.model.response;
 
-import com.instimaster.model.institute.Institute;
+import com.instimaster.entity.Institute;
 import lombok.Data;
 
 import java.util.List;

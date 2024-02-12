@@ -1,4 +1,4 @@
-package com.instimaster.model.institute;
+package com.instimaster.entity;
 
 import com.instimaster.util.IdUtil;
 import jakarta.persistence.Entity;
@@ -8,7 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
-@Table(name="Institutes")
+@Table(name="institutes")
 @Getter
 @Setter
 @ToString
@@ -25,6 +25,6 @@ public class Institute {
     private String estabYear;
 
     public Institute() {
-        this.id = IdUtil.getInstituteId(this);
+        this.id = IdUtil.generateInstituteId(this);
     }
 }

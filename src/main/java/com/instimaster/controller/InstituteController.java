@@ -1,5 +1,6 @@
 package com.instimaster.controller;
 
+import com.instimaster.dao.InstituteDao;
 import com.instimaster.model.request.CreateInstituteRequest;
 import com.instimaster.model.request.UpdateInstituteRequest;
 import com.instimaster.model.response.CreateInstituteResponse;
@@ -8,22 +9,18 @@ import com.instimaster.model.response.GetInstituteByIdResponse;
 import com.instimaster.model.response.UpdateInstituteResponse;
 import com.instimaster.service.InstituteService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class InstituteController {
     private static final String INSTITUTES_PATH = "/institutes";
 
     private final InstituteService instituteService;
-
-    @Autowired
-    public InstituteController(InstituteService instituteService) {
-        this.instituteService = instituteService;
-    }
 
     @GetMapping(INSTITUTES_PATH)
     public ResponseEntity<GetAllInstitutesResponse> getAllInstitutes() {

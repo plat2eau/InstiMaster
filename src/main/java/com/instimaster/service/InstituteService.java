@@ -1,36 +1,27 @@
 package com.instimaster.service;
 
 import com.instimaster.dao.InstituteDao;
-import com.instimaster.exception.NoSuchInstitutionException;
-import com.instimaster.model.institute.Institute;
+import com.instimaster.entity.Institute;
 import com.instimaster.model.request.CreateInstituteRequest;
-import com.instimaster.model.request.DeleteInstituteRequest;
-import com.instimaster.model.request.GetInstituteByIdRequest;
 import com.instimaster.model.request.UpdateInstituteRequest;
 import com.instimaster.model.response.CreateInstituteResponse;
 import com.instimaster.model.response.GetAllInstitutesResponse;
 import com.instimaster.model.response.GetInstituteByIdResponse;
 import com.instimaster.model.response.UpdateInstituteResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class InstituteService {
 
     private final InstituteDao instituteDao;
-
-    @Autowired
-    public InstituteService(InstituteDao instituteDao) {
-        this.instituteDao = instituteDao;
-    }
 
     public ResponseEntity<GetAllInstitutesResponse> getAllInstitutes() {
         return new ResponseEntity<>(new GetAllInstitutesResponse(instituteDao.findAll()), HttpStatus.OK);
