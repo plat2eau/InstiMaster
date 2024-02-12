@@ -2,6 +2,7 @@ package com.instimaster.service;
 
 import com.instimaster.dao.UserDao;
 import com.instimaster.entity.User;
+import com.instimaster.exceptions.user.UserAlreadyExistsException;
 import com.instimaster.model.UserRoles;
 import com.instimaster.model.request.auth.CreateUserRequest;
 import com.instimaster.model.request.auth.DeleteUserRequest;
@@ -32,7 +33,7 @@ public class UserService {
         User user = new User();
         BeanUtils.copyProperties(request, user);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userDao.save(user);
+        insertUser(user);
         CreateUserResponse response = CreateUserResponse.builder().id(user.getId()).build();
         return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
     }
@@ -48,6 +49,17 @@ public class UserService {
         user.setEmail(defaultAdminConfig.getUsername());
         user.setPassword(defaultAdminConfig.getPassword());
         user.setRole(UserRoles.ADMIN);
+        try {
+            insertUser(user);
+        } catch (UserAlreadyExistsException ignored) {
+        }
+    }
+
+    private User insertUser(User user) throws UserAlreadyExistsException {
+        if(userDao.findByEmail(user.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("User with email: " + user.getEmail() + " already exists");
+        }
         userDao.save(user);
+        return user;
     }
 }

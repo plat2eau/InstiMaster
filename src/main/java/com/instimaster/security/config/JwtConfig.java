@@ -1,4 +1,4 @@
-package com.instimaster.security.jwt;
+package com.instimaster.security.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @ConfigurationProperties("security.jwt")
-public class JwtProperties {
+public class JwtConfig {
     private String secretKey;
 }

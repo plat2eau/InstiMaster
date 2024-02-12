@@ -1,5 +1,6 @@
-package com.instimaster.security;
+package com.instimaster.security.config;
 
+import com.instimaster.security.CustomUserDetailService;
 import com.instimaster.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,6 @@ public class WebSecurityConfig {
                 })
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    // TODO Remove access
                     registry.requestMatchers("/admin/**").permitAll()
                             .requestMatchers("/login").permitAll()
                             .anyRequest().authenticated();

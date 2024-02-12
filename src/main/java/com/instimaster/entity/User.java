@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.instimaster.model.UserRoles;
 import com.instimaster.util.IdUtil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +23,7 @@ public class User {
     private String email;
     @JsonIgnore
     private String password;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserRoles role;
     private String firstName;

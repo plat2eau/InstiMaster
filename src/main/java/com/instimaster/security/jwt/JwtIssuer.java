@@ -2,6 +2,7 @@ package com.instimaster.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.instimaster.security.config.JwtConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtIssuer {
 
-    private final JwtProperties properties;
+    private final JwtConfig properties;
     public String issue(long userId, String email, List<String> roles) {
         return JWT.create()
                 .withSubject(String.valueOf(userId))
-                // TODO Change to 5 minutes
-                .withExpiresAt(Instant.now().plus(Duration.of(1, ChronoUnit.DAYS)))
+                .withExpiresAt(Instant.now().plus(Duration.of(5, ChronoUnit.MINUTES)))
                 .withClaim("e", email)
                 .withClaim("a", roles)
                 .sign(Algorithm.HMAC256(properties.getSecretKey()));

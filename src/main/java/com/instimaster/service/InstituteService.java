@@ -2,6 +2,8 @@ package com.instimaster.service;
 
 import com.instimaster.dao.InstituteDao;
 import com.instimaster.entity.Institute;
+import com.instimaster.exceptions.institute.InstituteAlreadyExistsException;
+import com.instimaster.exceptions.institute.InstituteNotFoundException;
 import com.instimaster.model.request.CreateInstituteRequest;
 import com.instimaster.model.request.UpdateInstituteRequest;
 import com.instimaster.model.response.CreateInstituteResponse;
@@ -13,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -34,8 +35,7 @@ public class InstituteService {
         if(institute.isPresent()) {
             return new ResponseEntity<>(new GetInstituteByIdResponse(institute.get()), HttpStatus.OK);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Institute with id: " + id + " not found");
+            throw new InstituteNotFoundException("Institute with id: " + id + " not found");
         }
     }
 
@@ -59,8 +59,7 @@ public class InstituteService {
             instituteDao.save(instituteToBeInserted);
             return new ResponseEntity<>(new UpdateInstituteResponse(instituteToBeInserted.getId()), HttpStatus.OK);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Institute with id: " + req.getId() + " not found");
+            throw new InstituteAlreadyExistsException("Institute with id: " + req.getId() + " not found");
         }
     }
 
