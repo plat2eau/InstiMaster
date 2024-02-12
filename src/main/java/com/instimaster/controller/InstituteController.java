@@ -1,6 +1,11 @@
 package com.instimaster.controller;
 
-import com.instimaster.model.institute.Institute;
+import com.instimaster.model.request.CreateInstituteRequest;
+import com.instimaster.model.request.UpdateInstituteRequest;
+import com.instimaster.model.response.CreateInstituteResponse;
+import com.instimaster.model.response.GetAllInstitutesResponse;
+import com.instimaster.model.response.GetInstituteByIdResponse;
+import com.instimaster.model.response.UpdateInstituteResponse;
 import com.instimaster.service.InstituteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +26,23 @@ public class InstituteController {
     }
 
     @GetMapping(INSTITUTES_PATH)
-    public ResponseEntity<List<Institute>> getAllInstitutes() {
+    public ResponseEntity<GetAllInstitutesResponse> getAllInstitutes() {
         return instituteService.getAllInstitutes();
     }
 
     @GetMapping(INSTITUTES_PATH + "/{id}")
-    public ResponseEntity<Institute> getInstitute(@PathVariable String id) {
+    public ResponseEntity<GetInstituteByIdResponse> getInstituteById(@PathVariable String id) {
         return instituteService.getInstituteById(id);
     }
 
     @PostMapping(INSTITUTES_PATH)
-    public ResponseEntity<String> createInstitute(@RequestBody @Valid Institute instituteParam) {
-        return instituteService.createInstitute(instituteParam);
+    public ResponseEntity<CreateInstituteResponse> createInstitute(@RequestBody @Valid CreateInstituteRequest req) {
+        return instituteService.createInstitute(req);
     }
 
     @PutMapping(INSTITUTES_PATH)
-    public ResponseEntity<String> updateInstitute(@RequestBody @Valid Institute instituteParam) {
-        return instituteService.updateInstitute(instituteParam);
+    public ResponseEntity<UpdateInstituteResponse> updateInstitute(@RequestBody @Valid UpdateInstituteRequest req) {
+        return instituteService.updateInstitute(req);
     }
 
     @DeleteMapping(INSTITUTES_PATH + "/{id}")

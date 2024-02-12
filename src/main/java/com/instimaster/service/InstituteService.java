@@ -3,6 +3,14 @@ package com.instimaster.service;
 import com.instimaster.dao.InstituteDao;
 import com.instimaster.exception.NoSuchInstitutionException;
 import com.instimaster.model.institute.Institute;
+import com.instimaster.model.request.CreateInstituteRequest;
+import com.instimaster.model.request.DeleteInstituteRequest;
+import com.instimaster.model.request.GetInstituteByIdRequest;
+import com.instimaster.model.request.UpdateInstituteRequest;
+import com.instimaster.model.response.CreateInstituteResponse;
+import com.instimaster.model.response.GetAllInstitutesResponse;
+import com.instimaster.model.response.GetInstituteByIdResponse;
+import com.instimaster.model.response.UpdateInstituteResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,46 +32,49 @@ public class InstituteService {
         this.instituteDao = instituteDao;
     }
 
-    public ResponseEntity<List<Institute>> getAllInstitutes() {
-        return new ResponseEntity<>(instituteDao.findAll(), HttpStatus.OK);
+    public ResponseEntity<GetAllInstitutesResponse> getAllInstitutes() {
+        return new ResponseEntity<>(new GetAllInstitutesResponse(instituteDao.findAll()), HttpStatus.OK);
     }
 
-    public ResponseEntity<Institute> getInstituteById(String instituteId) {
+    public ResponseEntity<GetInstituteByIdResponse> getInstituteById(String id) {
         Optional<Institute> institute = null;
-        institute = instituteDao.findById(instituteId);
+        institute = instituteDao.findById(id);
 
         if(institute.isPresent()) {
-            return new ResponseEntity<>(institute.get(), HttpStatus.OK);
+            return new ResponseEntity<>(new GetInstituteByIdResponse(institute.get()), HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Institute with id: " + instituteId + " not found");
+                    "Institute with id: " + id + " not found");
         }
     }
 
-    public ResponseEntity<String> createInstitute(Institute instituteParam) {
-        Institute instituteWithId = new Institute(instituteParam);
-        instituteDao.save(instituteWithId);
-        return new ResponseEntity<>(instituteWithId.getId(), HttpStatus.OK);
+    public ResponseEntity<CreateInstituteResponse> createInstitute(CreateInstituteRequest req) {
+        Institute institute = new Institute();
+        BeanUtils.copyProperties(req, institute);
+        instituteDao.save(institute);
+        return new ResponseEntity<>(new CreateInstituteResponse(institute.getId()), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> updateInstitute(Institute instituteParam) {
+    public ResponseEntity<UpdateInstituteResponse> updateInstitute(UpdateInstituteRequest req) {
         Institute instituteToBeInserted;
-        Optional<Institute> existingInstitute = instituteDao.findById(instituteParam.getId());
+        Optional<Institute> existingInstitute = instituteDao.findById(req.getId());
 
         if(existingInstitute.isPresent()) {
             // Loading institute from database
-            instituteToBeInserted = new Institute(existingInstitute.get());
+            instituteToBeInserted = new Institute();
+            BeanUtils.copyProperties(existingInstitute, instituteToBeInserted);
             // Overwriting new values to be updated
-            BeanUtils.copyProperties(instituteToBeInserted, instituteParam);
+            BeanUtils.copyProperties(req, instituteToBeInserted);
             instituteDao.save(instituteToBeInserted);
-            return new ResponseEntity<>(instituteToBeInserted.getId(), HttpStatus.OK);
+            return new ResponseEntity<>(new UpdateInstituteResponse(instituteToBeInserted.getId()), HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Institute with id: " + instituteParam.getId() + " not found");
+                    "Institute with id: " + req.getId() + " not found");
         }
     }
 
     public ResponseEntity deleteInstitute(String id) {
+        instituteDao.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
