@@ -14,7 +14,10 @@
 	<name>InstiMaster</name>
 	<description>InstiMaster</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>

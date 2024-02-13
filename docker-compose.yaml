@@ -1,0 +1,54 @@
+version: '3.7'
+
+volumes:
+  postgres:
+  pgadmin:
+
+services:
+  postgres:
+    container_name: instimaster_postgres
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: instimasterdb
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: instimaster_pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 5050
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+    ports:
+      - '5050:5050'
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo 'postgres:5432:*:postgres:password' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+
+  app:
+    container_name: instimaster_spring_backend
+    image: instimaster
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/instimasterdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    restart: unless-stopped
