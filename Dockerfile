@@ -1,4 +1,4 @@
-FROM maven:3.9.2-amazoncorretto-17
+FROM maven:3.9.2-amazoncorretto-17 as build
 WORKDIR /app
 COPY pom.xml .
 COPY src src
@@ -10,7 +10,7 @@ CMD /wait-for-it.sh postgres:5432 -- mvn clean package
 
 RUN mvn clean package
 
-FROM amazoncorretto:17.0.10
+FROM openjdk:17
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
