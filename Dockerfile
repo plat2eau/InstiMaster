@@ -1,4 +1,3 @@
-FROM openjdk:1.8
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+FROM openjdk:17
+COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
