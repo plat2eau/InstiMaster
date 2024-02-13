@@ -10,6 +10,8 @@ CMD /wait-for-it.sh postgres:5432 -- mvn clean package
 
 RUN mvn clean package
 
-FROM openjdk:17
-COPY target/*.jar app.jar
+FROM amazoncorretto:17
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
