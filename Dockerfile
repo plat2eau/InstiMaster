@@ -10,7 +10,7 @@ CMD /wait-for-it.sh postgres:5432 -- mvn clean package
 
 RUN mvn clean package
 
-FROM amazoncorretto:17
+FROM amazoncorretto:17.0.10
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
