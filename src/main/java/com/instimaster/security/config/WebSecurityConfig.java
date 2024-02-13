@@ -5,7 +5,9 @@ import com.instimaster.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,17 +31,18 @@ public class WebSecurityConfig {
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(Customizer.withDefaults())
                 .securityMatcher("/**")
                 .sessionManagement(sessionManagementConfigurer -> {
                     sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/admin/**").permitAll()
-                            .requestMatchers("/login").permitAll()
-                            .anyRequest().authenticated();
+                        registry.requestMatchers("/login").permitAll()
+                                .requestMatchers("/logout").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/csrf/token").permitAll()
+                                .requestMatchers("/admin/user").hasRole("ADMIN")
+                                .anyRequest().authenticated();
                 });
         return httpSecurity.build();
     }

@@ -48,7 +48,7 @@ public class UserService {
         User user = new User();
         user.setEmail(defaultAdminConfig.getUsername());
         user.setPassword(defaultAdminConfig.getPassword());
-        user.setRole(UserRoles.ADMIN);
+        user.setRole(UserRoles.ROLE_ADMIN.toString());
         try {
             insertUser(user);
         } catch (UserAlreadyExistsException ignored) {

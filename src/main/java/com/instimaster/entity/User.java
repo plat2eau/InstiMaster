@@ -1,12 +1,11 @@
 package com.instimaster.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.instimaster.model.UserRoles;
 import com.instimaster.util.IdUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,8 +23,9 @@ public class User {
     @JsonIgnore
     private String password;
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private UserRoles role;
+    @NotBlank
+    @Pattern(regexp = "^(ROLE_ADMIN|ROLE_USER)$")
+    private String role;
     private String firstName;
     private String lastName;
 

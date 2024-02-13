@@ -8,11 +8,5 @@ import java.util.stream.Collectors;
 
 @ToString
 public enum UserRoles {
-    ADMIN, USER;
-
-    public static List<String> getRoles() {
-        return Arrays.stream(UserRoles.values())
-                .map( value -> value.toString().split("\\.")[1])
-                .collect(Collectors.toList());
-    }
+    ROLE_ADMIN, ROLE_USER;
 }
