@@ -8,7 +8,7 @@ COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 CMD /wait-for-it.sh postgres:5432 -- mvn clean package
 
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 FROM openjdk:17
 WORKDIR /app
