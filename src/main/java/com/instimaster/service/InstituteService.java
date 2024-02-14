@@ -2,7 +2,6 @@ package com.instimaster.service;
 
 import com.instimaster.dao.InstituteDao;
 import com.instimaster.entity.Institute;
-import com.instimaster.exceptions.institute.InstituteAlreadyExistsException;
 import com.instimaster.exceptions.institute.InstituteNotFoundException;
 import com.instimaster.model.request.CreateInstituteRequest;
 import com.instimaster.model.request.UpdateInstituteRequest;
@@ -59,7 +58,7 @@ public class InstituteService {
             instituteDao.save(instituteToBeInserted);
             return new ResponseEntity<>(new UpdateInstituteResponse(instituteToBeInserted.getId()), HttpStatus.OK);
         } else {
-            throw new InstituteAlreadyExistsException("Institute with id: " + req.getId() + " not found");
+            throw new InstituteNotFoundException("Institute with id: " + req.getId() + " not found");
         }
     }
 

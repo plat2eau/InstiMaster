@@ -1,5 +1,6 @@
 package com.instimaster.security.principal;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import java.util.Collection;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 
     private final long userId;

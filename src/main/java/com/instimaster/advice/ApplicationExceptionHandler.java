@@ -1,6 +1,6 @@
 package com.instimaster.advice;
 
-import com.instimaster.exceptions.institute.InstituteAlreadyExistsException;
+import com.instimaster.exceptions.InstiMasterException;
 import com.instimaster.exceptions.institute.InstituteNotFoundException;
 import com.instimaster.exceptions.user.UserAlreadyExistsException;
 import com.instimaster.model.response.ExceptionResponse;
@@ -33,8 +33,8 @@ public class ApplicationExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({InstituteNotFoundException.class, InstituteAlreadyExistsException.class, UserAlreadyExistsException.class})
-    public ExceptionResponse handleInvalidUserRole(RuntimeException e) {
+    @ExceptionHandler({InstituteNotFoundException.class, UserAlreadyExistsException.class})
+    public ExceptionResponse handleInternalErrors(InstiMasterException e) {
         return ExceptionResponse.builder()
                 .exception(e.getClass().getSimpleName())
                 .message(e.getMessage())

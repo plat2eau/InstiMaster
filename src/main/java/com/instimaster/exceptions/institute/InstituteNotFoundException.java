@@ -1,6 +1,8 @@
 package com.instimaster.exceptions.institute;
 
-public class InstituteNotFoundException extends RuntimeException{
+import com.instimaster.exceptions.InstiMasterException;
+
+public class InstituteNotFoundException extends InstiMasterException {
     public InstituteNotFoundException(String s) {
         super(s);
     }
