@@ -7,7 +7,7 @@ volumes:
 services:
   postgres:
     container_name: instimaster_postgres
-    image: 'postgres:latest'
+    image: 'postgres:16.0'
     environment:
       POSTGRES_DB: instimasterdb
       POSTGRES_PASSWORD: 12345
@@ -20,7 +20,7 @@ services:
 
   pgadmin:
     container_name: instimaster_pgadmin
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:8.3
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@localhost.com
       PGADMIN_DEFAULT_PASSWORD: admin
