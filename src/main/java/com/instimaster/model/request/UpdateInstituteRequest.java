@@ -4,11 +4,13 @@ import com.instimaster.constant.InputValidationRegex;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 
 @Data
+@Builder
 public class UpdateInstituteRequest {
 
     @Length(max = InputValidationRegex.MAX_ID)
@@ -18,26 +20,18 @@ public class UpdateInstituteRequest {
             message = InputValidationRegex.ID_ADVICE)
     private String id;
 
-    @Length(max = InputValidationRegex.MAX_NAME)
-    @NotNull
-    @NotBlank
+    @Length(min = 1, max = InputValidationRegex.MAX_NAME)
     private String name;
 
-    @Length(max = InputValidationRegex.MAX_LOCATION)
-    @NotNull
-    @NotBlank
+    @Length(min = 1, max = InputValidationRegex.MAX_LOCATION)
     private String location;
 
     @Length(max = InputValidationRegex.MAX_CONTACT)
-    @NotNull
-    @NotBlank
     @Pattern(regexp = InputValidationRegex.CONTACT_REGEX,
             message = InputValidationRegex.CONTACT_ADVICE)
     private String contact;
 
     @Length(max = InputValidationRegex.MAX_HEAD)
-    @NotNull
-    @NotBlank
     @Pattern(regexp = InputValidationRegex.NAME_REGEX,
             message = InputValidationRegex.NAME_ADVICE)
     private String head;

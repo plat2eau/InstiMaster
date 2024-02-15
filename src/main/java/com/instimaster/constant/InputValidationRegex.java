@@ -11,7 +11,7 @@ public class InputValidationRegex {
     // Taking 15 chars max https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s03.html
     public static final String CONTACT_REGEX = "^(\\+|)([0-9]){1,15}$";
     // Made to allow format INS<UUID>
-    public static final String ID_REGEX = "^INS[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+    public static final String ID_REGEX = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
     // No supporting names in languages other than english
     public static final String NAME_REGEX = "^[a-zA-Z\\s]+$";
     // Supporting websites in the format https://example.co.in or http://example.co.in
@@ -32,7 +32,7 @@ public class InputValidationRegex {
     // Input Validation Char limits
 
     public static final int MAX_CONTACT = 15;
-    public static final int MAX_ID = 35;
+    public static final int MAX_ID = 40;
     public static final int MAX_NAME = 75;
     public static final int MAX_HEAD = 75;
     public static final int MAX_WEBSITE = 200;

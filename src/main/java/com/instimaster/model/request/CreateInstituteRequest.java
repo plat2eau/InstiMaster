@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Getter
 @Setter
+@Builder
 public class CreateInstituteRequest {
 
     @Length(max = InputValidationRegex.MAX_NAME)

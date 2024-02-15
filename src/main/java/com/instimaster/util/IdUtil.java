@@ -6,11 +6,8 @@ import java.util.UUID;
 
 public class IdUtil {
 
-    public static final String PREFIX = "INS";
-
     public static String generateInstituteId(Institute institute) {
-        String randomUUID = UUID.randomUUID().toString();
-        return PREFIX.concat(randomUUID);
+        return UUID.randomUUID().toString();
     }
 
     public static Long generateUserId() {
