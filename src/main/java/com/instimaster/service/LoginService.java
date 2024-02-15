@@ -5,7 +5,9 @@ import com.instimaster.model.response.auth.LoginResponse;
 import com.instimaster.security.jwt.JwtIssuer;
 import com.instimaster.security.principal.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +40,9 @@ public class LoginService {
                 .collect(Collectors.toList());
 
         String token = jwtIssuer.issue(1L, principal.getEmail(), roles);
-        return new ResponseEntity<>(LoginResponse.builder().accessToken(token).build(), HttpStatus.OK);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(LoginResponse.builder().accessToken(token).build());
     }
 }

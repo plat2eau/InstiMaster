@@ -49,7 +49,11 @@ public class UserService {
         user.setEmail(defaultAdminConfig.getUsername());
         user.setPassword(defaultAdminConfig.getPassword());
         user.setRole("ROLE_ADMIN");
-        insertUser(user);
+        try {
+            insertUser(user);
+        } catch (UserAlreadyExistsException ignored) {
+            // Ignore if user is already created;
+        }
     }
 
     private User insertUser(User user) throws UserAlreadyExistsException {

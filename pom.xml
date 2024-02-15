@@ -79,6 +79,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>5.2.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
@@ -88,18 +94,28 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<docker.tests.enabled>true</docker.tests.enabled>
+				<spring.profiles.active>local</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
 			<id>deploy</id>
 			<properties>
-				<docker.tests.enabled>false</docker.tests.enabled>
+				<spring.profiles.active>deploy</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
 
 	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

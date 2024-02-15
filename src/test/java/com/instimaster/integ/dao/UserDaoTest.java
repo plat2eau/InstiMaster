@@ -1,6 +1,7 @@
-package com.instimaster.dao;
+package com.instimaster.integ.dao;
 
 import com.instimaster.InstiMasterApplication;
+import com.instimaster.dao.UserDao;
 import com.instimaster.entity.User;
 import com.instimaster.service.UserService;
 import com.instimaster.service.config.DefaultAdminConfig;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@EnabledIfSystemProperty(named = "docker.tests.enabled", matches = "true")
+@ActiveProfiles("local")
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
