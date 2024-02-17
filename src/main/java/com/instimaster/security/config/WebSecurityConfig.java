@@ -48,7 +48,9 @@ public class WebSecurityConfig {
                 })
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                        registry.requestMatchers("/login").permitAll()
+                        registry.requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/api-docs**/**").permitAll()
+                                .requestMatchers("/login").permitAll()
                                 .requestMatchers("/logout").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/csrf/token").permitAll()
                                 .requestMatchers("/admin/user").hasRole("ADMIN")
