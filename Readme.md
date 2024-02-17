@@ -142,4 +142,6 @@ Optimize Swagger integration for better API documentation and usability:
 
 - **Security Definitions:** Clearly define and document security requirements for each API endpoint, including authentication mechanisms, within the Swagger documentation.
 
+- **Access Control via Proxy:** We can create a User Proxy and then based on the roles that the user is having, we can restrict access to specific functionality.
+
 By implementing these improvements, we can enhance the security, accessibility, and overall development experience of the InstiMaster application.
